@@ -17,6 +17,14 @@ app.set('view engine', 'pug');
 
 app.get('/', (req, res) => res.render('index'));
 
+const Game = mongoose.model('game', {
+  board: [
+    [String, String, String],
+    [String, String, String],
+    [String, String, String]
+  ]
+});
+
 mongoose.connect(MONGODB_URL, () => {
   server.listen(PORT, () => console.log("Listening on port number ", PORT));
 

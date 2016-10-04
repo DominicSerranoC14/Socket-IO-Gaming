@@ -2,6 +2,7 @@
 
 const socket = io();
 const board = document.querySelector('.board');
+const status = document.querySelector('.status');
 /////////////////////////////////////////
 
 socket.on('connect', () => console.log("User connected"));
@@ -12,6 +13,8 @@ const gameState = [
   ['','',''],
   ['','','']
 ];
+
+let nextPlayer = 'X';
 
 const drawBoard = (boardState) => {
   document.querySelector('.board').innerHTML = `
@@ -33,12 +36,13 @@ const drawBoard = (boardState) => {
       </tr>
     </table>
   `;
+
+  status.innerText = `It is ${nextPlayer}'s turn.`;
 };
 
 
 //Draw the board at start of game
 drawBoard(gameState);
-let nextPlayer = 'X';
 
 
 board.addEventListener('click', evt => {
@@ -49,7 +53,7 @@ board.addEventListener('click', evt => {
   if (gameState[row][col]) {
     return console.log('Cannot move there');
   }
-  
+
   gameState[row][col] = nextPlayer;
   nextPlayer = nextPlayer === 'X' ? 'O': 'X';
   drawBoard(gameState);
@@ -57,4 +61,5 @@ board.addEventListener('click', evt => {
   console.log('You clicked on : ', row, col);
   console.log("Current game state", board);
 
+  status.innerText = `It is ${nextPlayer}'s turn.`;
 });

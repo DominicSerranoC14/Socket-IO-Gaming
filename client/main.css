@@ -3,8 +3,9 @@ body {
   color: tomato;
 }
 
-h1 {
+h1, div.status {
   text-align: center;
+  margin: 1rem;
 }
 
 table {
