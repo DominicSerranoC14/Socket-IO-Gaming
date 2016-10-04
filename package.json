@@ -1,0 +1,26 @@
+{
+  "name": "socketiogaming",
+  "version": "1.0.0",
+  "description": "A multiplayer gaming app made with Node.js and Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DominicSerranoC14/Socket-IO-Gaming.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DominicSerranoC14/Socket-IO-Gaming/issues"
+  },
+  "homepage": "https://github.com/DominicSerranoC14/Socket-IO-Gaming#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.6.2",
+    "pug": "^2.0.0-beta6",
+    "socket.io": "^1.4.8"
+  }
+}
