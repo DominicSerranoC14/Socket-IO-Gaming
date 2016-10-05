@@ -1,0 +1,12 @@
+doctype
+html
+  head
+    title T/T/T
+
+  body
+    h1 Pick your game
+
+    h2 Select a game
+    ul
+      for game in games
+        li: a(href=`/game/${game._id}`) Game: #{game._id}

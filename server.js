@@ -2,6 +2,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const Game = require('./models/game.js');
 mongoose.Promise = Promise;
 const { Server } = require('http');
 const socketio = require('socket.io');
@@ -18,14 +19,25 @@ app.set('view engine', 'pug');
 
 app.get('/', (req, res) => res.render('index'));
 
-const Game = mongoose.model('game', {
-  board: [
-    [String, String, String],
-    [String, String, String],
-    [String, String, String]
-  ],
-  nextMove: String,
-  result: String
+app.get('/gameroom', (req, res) => {
+  Game.find().then((games) => {
+    res.render('gameroom', {games});
+  });
+});
+
+app.get('/game/create', (req, res) => {
+  //On every connection create a new game board
+  Game.create({
+    board: [ ['','',''], ['','',''], ['','',''] ],
+    nextMove: 'X'
+  })
+  .then((game) => {
+    res.redirect(`/game/${game._id}`);
+  });
+});
+
+app.get('/game/:id', (req, res) => {
+  res.render('game');
 });
 
 mongoose.connect(MONGODB_URL, () => {
