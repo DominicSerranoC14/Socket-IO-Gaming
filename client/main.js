@@ -6,22 +6,6 @@ const status = document.querySelector('.status');
 let gameState;
 /////////////////////////////////////////
 
-
-socket.on('connect', () => console.log("User connected"));
-socket.on('disconnect', () => console.log("User disconnected"));
-socket.on('error', console.error);
-socket.on('new game', (game) => {
-  gameState = game.board;
-  //Draw the board at start of game
-  drawBoard(game.board);
-  console.log("Test text", game.board);
-});
-socket.on('move made', (game) => {
-  gameState = game.board;
-  //Draw the board after a move has been made
-  drawBoard(game.board);
-});
-
 let nextPlayer = 'X';
 
 // let boardState = [
@@ -30,7 +14,12 @@ let nextPlayer = 'X';
 //   ['','','']
 // ];
 
-const drawBoard = (boardState) => {
+
+const renderStatus = (gameObj) => {
+  status.innerText = `It is ${gameObj.nextMove}'s turn.`;
+}
+
+const renderBoard = (boardState) => {
   document.querySelector('.board').innerHTML = `
     <table>
       <tr>
@@ -50,8 +39,6 @@ const drawBoard = (boardState) => {
       </tr>
     </table>
   `;
-
-  status.innerText = `It is ${nextPlayer}'s turn.`;
 };
 
 
@@ -69,10 +56,30 @@ board.addEventListener('click', evt => {
 
   gameState[row][col] = nextPlayer;
   nextPlayer = nextPlayer === 'X' ? 'O': 'X';
-  drawBoard(gameState);
+  renderBoard(gameState);
 
   console.log('You clicked on : ', row, col);
-  console.log("Current game state", board);
 
   status.innerText = `It is ${nextPlayer}'s turn.`;
+});
+
+const render = (gameObj) => {
+  renderStatus(gameObj);
+  renderBoard(gameObj.board);
+}
+
+//Socket listeners
+socket.on('connect', () => console.log("User connected"));
+socket.on('disconnect', () => console.log("User disconnected"));
+socket.on('error', console.error);
+socket.on('new game', (game) => {
+  gameState = game.board;
+  //Draw the board at start of game
+  render(game);
+  console.log("Test text", game.board);
+});
+socket.on('move made', (game) => {
+  gameState = game.board;
+  //Draw the board after a move has been made
+  render(game);
 });

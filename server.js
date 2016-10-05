@@ -23,7 +23,9 @@ const Game = mongoose.model('game', {
     [String, String, String],
     [String, String, String],
     [String, String, String]
-  ]
+  ],
+  nextMove: String,
+  result: String
 });
 
 mongoose.connect(MONGODB_URL, () => {
@@ -33,7 +35,8 @@ mongoose.connect(MONGODB_URL, () => {
     console.log("User connected to server", socket.id);
     //On every connection create a new game board
     Game.create({
-      board: [ ['','',''], ['','',''], ['','',''] ]
+      board: [ ['','',''], ['','',''], ['','',''] ],
+      nextMove: 'X'
     })
     .then((game) => {
       socket.game = game;
@@ -45,7 +48,8 @@ mongoose.connect(MONGODB_URL, () => {
     });
 
     socket.on('make move', ({row, col}) => {
-      socket.game.board[row][col] = 'X';
+      socket.game.board[row][col] = socket.game.nextMove;
+      socket.game.nextMove = socket.game.nextMove === 'X' ? 'O': 'X';
       socket.game.markModified('board');
       socket.game.save()
       .then((game) => socket.emit('move made', game));
