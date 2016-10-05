@@ -1,0 +1,21 @@
+body {
+  background: grey;
+  color: tomato;
+}
+
+h1, div.status {
+  text-align: center;
+  margin: 1rem;
+}
+
+table {
+  margin: auto;
+}
+
+td {
+  border: 1px solid black;
+  height: 150px;
+  width: 150px;
+  font-size: 80px;
+  text-align: center;
+}
